@@ -83,6 +83,14 @@
 
 ---
 
+## ConvNeXt-Tiny (`src/deep_learning/convnext/`)
+
+| 날짜 | 담당자 | 변경 사항 | Val 정확도 | Test 정확도 | 비고 |
+|---|---|---|---|---|---|
+| 2026-10-02 | Claude | 팀원(이태인 추정) `convnext` 브랜치(주피터 노트북 `convnext_v3~v5.ipynb`, 체크포인트·원본 이미지가 그대로 커밋돼 있던 상태)에서 로직만 뽑아 `.py` 스크립트로 재작성. 2단계 학습(Stage1 warmup: head만 학습 5 epoch → Stage2 finetune: 전체 unfreeze+LLRD decay=0.8, 최대 40 epoch), 증강 RandomPerspective+RandomErasing(PPT "v3→v4" 단계와 동일), label_smoothing=0.1, patience=10 | **98.4%, Macro-F1 0.984** (epoch 19에서 조기 종료) | **86.5%(126장 중), Macro-F1 0.867** | **주의**: PPT는 마지막 단계를 "val loss 기준 early stopping"이라고 설명하지만 실제 `convnext_v5.ipynb` 코드는 이와 다르게 validation을 아예 없애고 train_acc 기준으로 멈추며 held-out 데이터를 test셋에 합쳐버리는 방식이었음(PPT 서술과 노트북 코드 불일치 발견). 이 스크립트는 노트북을 그대로 베끼지 않고 **PPT가 설명한 대로** val loss 기준 best-model 선택을 실제로 구현함 — val을 끝까지 held-out으로 유지하는 게 더 안전한 관행이라 판단. 그 결과 PPT가 보고한 수치(0.88~0.89)보다 다소 낮게 나왔는데(0.867), 이는 더 엄격한 평가 방식(검증 데이터 미누출) 때문으로 추정 — 원인 미확정 |
+
+---
+
 ## Custom CNN (`src/deep_learning/custom_cnn/`) — 구현 공부/실험용, 4트랙 비교 제외
 
 **4트랙(룰베이스/Mask R-CNN/ResNet/EfficientNet) 공식 비교표에는 넣지 않는다.** 사전학습 없이 직접 설계한 작은 CNN(conv block 4개+GAP+Dropout+FC, `model.py`)을 `data/preprocess`만으로 처음부터 학습해서, "왜 전이학습(ResNet)이 유리한가"를 확인하는 대조군 실험.
