@@ -1,0 +1,4 @@
+# 화면 강조색. 슬라이더·체크박스·기본 버튼이 이 색을 쓴다.
+# 확신도 막대의 '판정 완료' 색(app/demo.py의 BAR_ACCENT)과 같은 값 — 같이 바꿀 것.
+[theme]
+primaryColor = "#FF4B4B"
