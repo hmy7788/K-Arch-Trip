@@ -79,7 +79,7 @@
 
 | 날짜 | 담당자 | 변경 사항 | Val 정확도 | Test 정확도 | 비고 |
 |---|---|---|---|---|---|
-| _(아직 실험 없음)_ | | | | | |
+| 2026-10-02 | Claude | 팀원(seungjae) `seungjae/efficientnet-b0-v2` 브랜치(`src/models/efficientnet/`, 데이터 경로 `img/train`·`img/test`)에서 로직 이식 — 이 프로젝트의 `data/preprocess` stratified_split(seed=42, dl2_resnet/vit와 동일 알고리즘)과 Test1/Test2 평가 구조에 맞춰 재작성. compound scaling + MBConv 구조, AdamW(lr=3e-4, wd=1e-4) + Cosine annealing, 15 epoch, `--no-freeze-backbone` | **96.9%, Macro-F1 0.969** | **88.1%(126장 중), Macro-F1 0.879** | 원본 브랜치가 PPT에 보고한 수치(Accuracy 0.88/Macro-F1 0.89, 단 `img/test` 126장 기준)와 오차범위 내로 일치 — 포팅이 정확하다는 게 검증됨. 4트랙 중 룰베이스·Mask R-CNN보다 훨씬 높고 ResNet-18(TTA, 82.5%/0.829)보다도 소폭 높음 |
 
 ---
 
