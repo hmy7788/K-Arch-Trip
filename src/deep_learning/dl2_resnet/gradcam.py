@@ -137,7 +137,9 @@ def main() -> None:
     for c in CLASSES:
         random.shuffle(by_class[c])
 
-    fig, axes = plt.subplots(len(CLASSES), args.per_class, figsize=(3 * args.per_class, 3 * len(CLASSES)))
+    # squeeze=False: per_class=1이거나 클래스가 1개뿐이어도 axes가 항상 2차원 배열로 나오게 한다
+    # (안 하면 어느 한쪽 길이가 1일 때 matplotlib이 차원을 접어버려서 axes[row, col]이 깨짐)
+    fig, axes = plt.subplots(len(CLASSES), args.per_class, figsize=(3 * args.per_class, 3 * len(CLASSES)), squeeze=False)
 
     print(f"\nGrad-CAM 생성 중 (클래스당 {args.per_class}장)...")
     for row, cls in enumerate(CLASSES):
