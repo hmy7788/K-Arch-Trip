@@ -18,7 +18,7 @@
 - 사진을 올리면 텀블러 형태(머그형 / 직선 원통형 / 연속 테이퍼형 / 단차 테이퍼형) 4종을 자동 분류
 - **같은 실루엣 판정 규칙이 건축물 파사드에도 적용된다**는 전제로, 건축물 데이터 없이도 판별 시스템을 먼저 구축·검증
 - 룰베이스부터 Vision Transformer까지 **6갈래 방법론을 같은 데이터·같은 평가 기준으로 공정 비교**
-- 실행 방법: [docs/testing.md](docs/testing.md)
+- 실행 방법: [docs/getting-started.md](docs/getting-started.md)
 
 | 항목 | 결과 |
 |---|---|
@@ -175,8 +175,6 @@ flowchart LR
 
 - **배경-객체 색상 유사** — 학습 데이터가 배경 없는 깨끗한 이미지 위주라, 배경과 객체 색이 비슷하면 세그멘테이션 성능이 떨어짐 → 배경 있는 데이터 추가 학습, 탐지 성능을 고려한 모델 튜닝 필요
 - **Taper Smooth 분류** — 입력 크기 변환(Resize+CenterCrop) 과정에서 원본 종횡비와 측벽 기울기가 손실돼 기하학적 특징이 희미해짐 → 데이터 양적 보완 및 종횡비 보존 전처리 확대가 유효할 것으로 판단(모델/전처리 영향은 제한적으로 분석됨)
-- **MobileNetV3-Small 미복구** — 발표에는 포함됐으나 코드 소재를 찾지 못해 이 저장소에는 미포함, 추후 재구현 필요
-- **트랙 간 평가셋 불일치** — 일부 트랙은 `data/test1`(158장), 일부는 정제된 `data/test1_orientation_backup`(126장)을 기본값으로 써서 완전히 동일한 조건 비교는 추가 작업 필요([docs/testing.md](docs/testing.md)에 명시)
 
 ## 8. 라이브 데모
 
@@ -198,6 +196,8 @@ cd k_trip_ios && python -m uvicorn server:app
 ```
 
 아이폰 UI를 흉내 낸 모바일 웹 앱(네이티브 Swift 아님). 발표 당일 QR 코드로 체험자들이 직접 촬영해 도감을 채우는 라이브 데모로 사용했다.
+
+설치부터 학습·평가·데모 실행까지 전체 절차는 [docs/getting-started.md](docs/getting-started.md) 참고.
 
 ## 9. 기술 스택
 
@@ -237,8 +237,9 @@ cd k_trip_ios && python -m uvicorn server:app
 
 | 문서 | 내용 |
 |---|---|
+| [docs/getting-started.md](docs/getting-started.md) | 설치·데이터 배치·학습·평가·데모 실행 방법 |
 | [docs/experiment-log.md](docs/experiment-log.md) | 트랙별 실험 결과·시행착오 전체 기록 |
-| [docs/testing.md](docs/testing.md) | 전체 기능 재현·검증 방법 |
+| [docs/testing.md](docs/testing.md) | 전체 기능 재현·검증 방법(기대 수치, 알려진 함정) |
 | [docs/dataset-composition.md](docs/dataset-composition.md) | 클래스별 데이터 구성 |
 | [docs/data-collection-plan.md](docs/data-collection-plan.md) | 수집 전략(API/크롤링/직접 촬영 우선순위) |
 | [docs/label-quality-filtering.md](docs/label-quality-filtering.md) | 라벨 품질 필터링(룰베이스+Mask R-CNN 교차검증) |
