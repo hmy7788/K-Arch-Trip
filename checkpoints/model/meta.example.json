@@ -1,0 +1,32 @@
+{
+  "_설명": "학습한 사람한테 아래 값을 받아 meta.json으로 저장한다. 값이 학습과 다르면 에러 없이 조용히 틀린다.",
+  "library": "torchvision",
+  "_library": "torchvision 또는 timm. 학습 코드의 import를 보면 안다",
+  "arch": "convnext_tiny",
+  "_arch": "torchvision이면 convnext_tiny / convnext_small. timm이면 timm.create_model('...')에 쓴 이름",
+  "img_size": 224,
+  "_img_size": "학습 transforms의 Resize/CenterCrop 크기",
+  "resize": "center_crop",
+  "_resize": "stretch=Resize((s,s)) / center_crop=Resize(256)+CenterCrop(224) 계열 / letterbox=비율 유지+흰 여백",
+  "mean": [
+    0.485,
+    0.456,
+    0.406
+  ],
+  "std": [
+    0.229,
+    0.224,
+    0.225
+  ],
+  "_mean_std": "transforms.Normalize 값. 안 썼으면 [0,0,0]과 [1,1,1]",
+  "classes": [
+    "mug",
+    "straight",
+    "taper_smooth",
+    "taper_step"
+  ],
+  "_classes": "학습 때 클래스 순서 (ImageFolder면 폴더명 알파벳순). 모델 출력 0번 = 이 리스트 0번",
+  "weights": "best.pt",
+  "state_dict_key": null,
+  "_state_dict_key": "체크포인트 dict에서 state_dict가 특이한 키 아래 있으면 그 키. 보통 null(자동 탐색)"
+}

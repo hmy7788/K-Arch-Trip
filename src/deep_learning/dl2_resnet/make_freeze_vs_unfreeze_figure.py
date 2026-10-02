@@ -1,0 +1,73 @@
+"""ResNet-18 베이스라인(freeze) vs 개선(unfreeze+TTA)의 Test 정확도/Macro-F1 비교 막대그래프를 만든다.
+
+이번 세션에서 실측한 값 — 둘 다 같은 data/test1_orientation_backup(126장)
+기준(베이스라인은 최초 실험 환경을 재현해서 재측정, 개선 쪽은 현재 공식 체크포인트
++ TTA 추론이 함께 적용된 수치).
+
+실행:
+    python src/deep_learning/dl2_resnet/make_freeze_vs_unfreeze_figure.py
+"""
+
+import argparse
+import os
+import sys
+
+sys.stdout.reconfigure(line_buffering=True, encoding="utf-8")  # 리다이렉트 시 즉시 출력 + cp949 인코딩 에러 방지
+
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+plt.rcParams["font.family"] = "Malgun Gothic"
+plt.rcParams["axes.unicode_minus"] = False
+
+# (라벨, Test 정확도, Macro-F1) — data/test1_orientation_backup(126장) 기준 실측치.
+DATA = [
+    ("베이스라인\n(백본 Freeze, FC layer만 학습)", 0.635, 0.608),
+    ("개선\n(백본 Unfreeze+차등 LR, TTA)", 0.825, 0.829),
+]
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--out", default="reports/figures/resnet18/freeze_vs_unfreeze.png")
+    args = parser.parse_args()
+
+    labels = [d[0] for d in DATA]
+    acc = [d[1] * 100 for d in DATA]
+    macro_f1 = [d[2] for d in DATA]
+
+    fig, ax = plt.subplots(figsize=(7, 5.5))
+    x = range(len(DATA))
+    width = 0.35
+    bars1 = ax.bar([i - width / 2 for i in x], acc, width, label="Test 정확도(%)", color="#4C72B0")
+    ax2 = ax.twinx()
+    bars2 = ax2.bar([i + width / 2 for i in x], macro_f1, width, label="Test Macro-F1", color="#DD8452")
+
+    ax.set_xticks(list(x))
+    ax.set_xticklabels(labels, fontsize=12)
+    ax.set_ylabel("Test 정확도(%)")
+    ax2.set_ylabel("Test Macro-F1")
+    ax.set_ylim(0, 100)
+    ax2.set_ylim(0, 1.0)
+    ax.set_title("ResNet-18 베이스라인 vs 개선(Unfreeze+TTA) — Test 성능 비교\n(data/test1_orientation_backup 126장 기준)",
+                  fontsize=13, fontweight="bold")
+
+    for b, v in zip(bars1, acc):
+        ax.text(b.get_x() + b.get_width() / 2, v + 1.5, f"{v:.1f}%", ha="center", fontsize=11)
+    for b, v in zip(bars2, macro_f1):
+        ax2.text(b.get_x() + b.get_width() / 2, v + 0.02, f"{v:.3f}", ha="center", fontsize=11)
+
+    lines1, labels1 = ax.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax.legend(lines1 + lines2, labels1 + labels2, loc="upper center", bbox_to_anchor=(0.5, -0.12), ncol=2, fontsize=10)
+
+    plt.tight_layout()
+    os.makedirs(os.path.dirname(args.out), exist_ok=True)
+    fig.savefig(args.out, dpi=150)
+    plt.close(fig)
+    print(f"저장 완료: {args.out}")
+
+
+if __name__ == "__main__":
+    main()

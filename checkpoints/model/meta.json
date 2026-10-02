@@ -1,0 +1,13 @@
+{
+  "_설명": "데모 앱(app/demo.py)이 읽는 모델 서술 파일. 현재는 공식 EfficientNet-B0 체크포인트를 가리킴 — ConvNeXt-Tiny 트랙을 이식하면 이 파일만 바꿔서 교체 가능(코드 수정 불필요).",
+  "library": "torchvision",
+  "arch": "efficientnet_b0",
+  "img_size": 224,
+  "resize": "center_crop",
+  "mean": [0.485, 0.456, 0.406],
+  "std": [0.229, 0.224, 0.225],
+  "classes": ["straight", "taper_smooth", "taper_step", "mug"],
+  "_classes": "src/deep_learning/efficientnet/train.py의 CLASSES와 동일한 순서 — 모델 출력 0번이 이 리스트 0번",
+  "weights": "../efficientnet_b0_shape.pth",
+  "state_dict_key": null
+}

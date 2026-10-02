@@ -1,0 +1,26 @@
+{
+  "_설명": "공식 ConvNeXt-Tiny 체크포인트(src/deep_learning/convnext/train.py)에 연결 — 원래 이 파일이 가리키던 teammate 개인 가중치(best_convnext_v5.pth)는 git에 없어서 이 프로젝트의 공식 체크포인트로 교체함.",
+  "library": "torchvision",
+  "arch": "convnext_tiny",
+  "img_size": 224,
+  "resize": "center_crop",
+  "mean": [
+    0.485,
+    0.456,
+    0.406
+  ],
+  "std": [
+    0.229,
+    0.224,
+    0.225
+  ],
+  "classes": [
+    "straight",
+    "taper_smooth",
+    "taper_step",
+    "mug"
+  ],
+  "_classes": "src/deep_learning/convnext/train.py의 CLASSES와 동일한 순서",
+  "weights": "../../checkpoints/convnext_tiny_shape.pth",
+  "state_dict_key": null
+}

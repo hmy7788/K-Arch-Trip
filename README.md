@@ -44,7 +44,7 @@ Computer Vision Project · 2026
 ### 핵심 기능
 
 1. **텀블러 형태 판별** — 이미지 업로드 시 4가지 형태를 자동 분류하고, 종류별 설명(형태 특징, 용도, 관련 정보) 제공
-2. **데이터 수집 및 크롤링** — 직접 촬영(20~30장/클래스) + 쿠팡·11번가·Google Images 크롤링으로 클래스당 200~300장 확보, 회전·반전·색상 변환으로 증강
+2. **데이터 수집 및 크롤링** — 직접 촬영(Test 전량) + 네이버 쇼핑 API(1순위)·검색 크롤링(부족분)으로 클래스당 200~300장 확보, 회전·반전·색상 변환으로 증강
 3. **(선택) 3D 공간 분류 시각화** — 분류된 텀블러 이미지를 3D 공간에 같은 형태끼리 배치해 탐색하는 웹 뷰어 (Three.js + CLIP 임베딩)
 
 ### 시스템 파이프라인
@@ -85,7 +85,7 @@ Computer Vision Project · 2026
 | OpenCV 룰베이스 | 고전 영상처리 | width profile(폭 프로파일) + `cv2.convexityDefects`(손잡이 검출) |
 | Mask R-CNN / Faster R-CNN (DL1) | Instance Segmentation | ResNet50+FPN → Mask 이진화 후 Rule-base와 유사한 기하 특징 추출 |
 | ResNet-18, 50 (DL2) | 전이학습 | pretrained + 백본 레이어만 fine-tuning, 18→50 순차 비교 |
-| EfficientNet | 전이학습 | EfficientDet 적용 학습 |
+| EfficientNet-B0 | 전이학습 | timm 기반 EfficientNet-B0 fine-tuning (분류) |
 | 3D 모델 (선택) | MV-DUSt3R+ (Meta) | 촬영 사진(4장 내외)으로부터 3D 포인트클라우드/메쉬 생성 |
 
 네 갈래 모두 같은 형태 분류 문제를 서로 다른 방법론(룰베이스 / 세그멘테이션 기반 / 순수 분류 전이학습 / 효율적 아키텍처)으로 풀어 성능·구현 난이도를 비교하는 것이 핵심 — "검증 대상은 시스템"이라는 원칙을 각 트랙이 공정하게 비교 가능한 구조로 재확인.
@@ -96,7 +96,7 @@ Computer Vision Project · 2026
 |---|---|
 | 1 | 환경 설정 + 데이터 수집 계획 — 클래스 확정, 크롤링 키워드 선정, 직접 촬영 시작 |
 | 2 | 데이터 수집 완료 + 증강 — 웹 크롤링, 클래스당 200장↑ 확보, 회전·플립·색상 증강 |
-| 3 | 모델 학습 — ResNet-50 · EfficientNet-B0 · ViT-B/16 fine-tuning + HOG/SVM baseline, 검증 정확도 비교 |
+| 3 | 모델 학습 — 룰베이스 완성 + Mask R-CNN(dl1)·ResNet-18/50(dl2)·EfficientNet-B0(4트랙) fine-tuning, 검증 정확도 비교 |
 | 4 | 설명글 + 파이프라인 통합 + UI — 형태별 설명 작성, Gradio UI 구현 |
 | 5 (선택) | 3D 시각화 + 데모 완성 — Three.js 임베딩 뷰어, 엣지 케이스 처리, 발표 시나리오 준비 |
 

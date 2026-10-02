@@ -1,0 +1,19 @@
+.claude
+CLAUDE.md
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# 데이터셋(실제 촬영·크롤링 이미지)은 git에 올리지 않는다 — 폴더 구조만 유지
+data/**/*.jpg
+data/**/*.jpeg
+data/**/*.png
+!data/**/.gitkeep
+
+# 학습된 모델 가중치도 git에 올리지 않는다 (용량 큼, GitHub 100MB 제한 초과 가능)
+checkpoints/*.pth
+checkpoints/*.pt
+!checkpoints/.gitkeep
+checkpoints_experiment/*.pth
+checkpoints_experiment/*.pt
