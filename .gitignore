@@ -17,3 +17,6 @@ checkpoints/*.pt
 !checkpoints/.gitkeep
 checkpoints_experiment/*.pth
 checkpoints_experiment/*.pt
+
+# 발표용 데모 영상도 용량이 커서 git에 올리지 않는다
+ppt/*.mp4
